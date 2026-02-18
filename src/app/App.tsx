@@ -16,19 +16,17 @@ import { Settings } from './components/pages/Settings';
 import { useAppStore } from '../hooks/useAppStore';
 import { Toaster } from './components/ui/sonner';
 
-type View = 
-  | 'login'
-  | 'dashboard' 
-  | 'projects' 
-  | 'backlog' 
-  | 'sprints' 
-  | 'kanban' 
-  | 'issues' 
+type View =
+  | 'dashboard'
+  | 'projects'
+  | 'sprints'
+  | 'kanban'
+  | 'issues'
   | 'issue-detail'
-  | 'roadmap' 
-  | 'releases' 
-  | 'automations' 
-  | 'reports' 
+  | 'roadmap'
+  | 'releases'
+  | 'automations'
+  | 'reports'
   | 'settings';
 
 export default function App() {
@@ -58,60 +56,51 @@ export default function App() {
     setSelectedIssueKey(null);
   };
 
-  // Login screen
   if (!isAuthenticated) {
     return <Login onLogin={handleLogin} />;
   }
 
-  // Main app layout
   return (
-    <div className="flex h-screen bg-gray-50">
-      <Sidebar 
-        currentView={currentView} 
+    <div className="flex h-screen bg-background">
+      <Sidebar
+        currentView={currentView}
         onViewChange={handleViewChange}
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
-      
+
       <div className="flex-1 flex flex-col overflow-hidden">
         <Topbar />
-        
+
         <main className="flex-1 overflow-hidden">
           {currentView === 'dashboard' && (
             <Dashboard onViewIssue={handleViewIssue} onNavigate={handleViewChange} />
           )}
-          
+
           {currentView === 'projects' && (
             <Projects onSelectProject={() => setCurrentView('dashboard')} />
           )}
-          
+
           {currentView === 'issues' && (
             <IssuesList onViewIssue={handleViewIssue} />
           )}
-          
+
           {currentView === 'issue-detail' && selectedIssueKey && (
-            <IssueDetail 
-              issueKey={selectedIssueKey} 
-              onBack={handleBackFromIssue}
-            />
+            <IssueDetail issueKey={selectedIssueKey} onBack={handleBackFromIssue} />
           )}
-          
+
           {currentView === 'kanban' && (
             <KanbanBoard onViewIssue={handleViewIssue} />
           )}
-          
-          {(currentView === 'backlog' || currentView === 'sprints') && (
+
+          {currentView === 'sprints' && (
             <BacklogSprints onViewIssue={handleViewIssue} />
           )}
-          
+
           {currentView === 'roadmap' && <Roadmap />}
-          
           {currentView === 'releases' && <Releases />}
-          
           {currentView === 'reports' && <Reports />}
-          
           {currentView === 'automations' && <Automations />}
-          
           {currentView === 'settings' && <Settings />}
         </main>
       </div>

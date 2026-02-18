@@ -1,14 +1,12 @@
-"use client";
+import * as React from "react";
+import { Toaster as Sonner, type ToasterProps } from "sonner";
 
-import { useTheme } from "next-themes";
-import { Toaster as Sonner, ToasterProps } from "sonner";
-
-const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
-
+// Quartz Workspace is an internal tool and we force dark mode globally.
+// Keeping the Toaster theme fixed avoids bringing a ThemeProvider.
+const Toaster = (props: ToasterProps) => {
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme="dark"
       className="toaster group"
       style={
         {
